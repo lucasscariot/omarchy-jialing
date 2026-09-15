@@ -20,10 +20,10 @@ main() {
     echo 'Jialing needs Python 3.11 or newer.' >&2; return 1;
   }
   if ! "$no_apply" && ! "$restore"; then
-    command -v omarchy >/dev/null && [[ -f "${XDG_CONFIG_HOME:-$HOME/.config}/hypr/hyprland.lua" ]] || {
+    if ! command -v omarchy >/dev/null || [[ ! -f "${XDG_CONFIG_HOME:-$HOME/.config}/hypr/hyprland.lua" ]]; then
       echo 'Jialing needs Omarchy with Lua Hyprland configuration (tested on 4.0.3). Use --no-apply to install files only.' >&2
       return 1
-    }
+    fi
   fi
 
   download=$(mktemp -d "${TMPDIR:-/tmp}/jialing-download.XXXXXXXX")
