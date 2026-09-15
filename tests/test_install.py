@@ -137,3 +137,20 @@ class InstallTests(unittest.TestCase):
         self.run_cli("--restore", str(backup), success=False)
         self.assertTrue((self.config / "omarchy/themes/jialing/colors.toml").exists())
         self.assertNotEqual(original.read_text(), "old light palette")
+
+    def test_selector_previews_show_each_variant_and_restore_previous_preview(self):
+        dark = self.config / "omarchy/themes/jialing/preview.png"
+        dark.parent.mkdir(parents=True)
+        dark.write_bytes(b"previous custom preview")
+        report = self.run_cli()
+        light = self.config / "omarchy/themes/jialing-light/preview.png"
+        self.assertEqual(
+            dark.read_bytes(), (ROOT / "docs/screenshots/dark-vitals.png").read_bytes()
+        )
+        self.assertEqual(
+            light.read_bytes(), (ROOT / "docs/screenshots/light-vitals.png").read_bytes()
+        )
+        self.assertNotEqual(dark.read_bytes(), light.read_bytes())
+        self.run_cli("--restore", report["backup"])
+        self.assertEqual(dark.read_bytes(), b"previous custom preview")
+        self.assertFalse(light.exists())

@@ -58,6 +58,8 @@ Real desktop captures staged on a separate workspace. The terminal contains demo
 | Inactive window opacity | 85% | 85% |
 | Window animations | Disabled | Disabled |
 
+Both variants include native `preview.png` screenshots, so Omarchy’s theme selector shows the matching desktop UI instead of only a wallpaper.
+
 Both variants include shell, Hyprland, and Ghostty styling. Ghostty uses iA Writer Mono S, 9 pt, with 14 px padding. The optional system font profile uses Inter for the UI. Native Omarchy templates generate other supported application colors from `colors.toml`.
 
 ## Compatibility

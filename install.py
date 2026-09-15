@@ -18,7 +18,7 @@ from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parent
 THEMES = ("jialing", "jialing-light")
-ASSETS = ("colors.toml", "shell.toml", "hyprland.lua", "ghostty.conf")
+ASSETS = ("colors.toml", "shell.toml", "hyprland.lua", "ghostty.conf", "preview.png")
 
 
 def location_root(variable, fallback):

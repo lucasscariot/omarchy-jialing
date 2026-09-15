@@ -20,7 +20,7 @@ Reviewed native theme assets, optional font profile, installer/update/restore, a
 
 ## Validation
 
-- 23 unittest tests pass locally with Astral 3.2.
+- 24 unittest tests pass locally with Astral 3.2.
 - Ruff lint and formatting checks pass.
 - Theme TOML and Fontconfig XML parse successfully.
 - Both variants apply on Omarchy 4.0.3-1; `hyprctl reload` succeeds and `hyprctl configerrors` is empty.
@@ -40,3 +40,5 @@ IP location is approximate and may reflect a VPN endpoint. No wallpaper or font 
 ## One-line installer
 
 `install.sh` bootstraps the existing installer from a temporary Git checkout. Five additional CLI tests cover argument forwarding and restore, download-failure cleanup, compatibility checks before downloading, repeat updates that preserve the light variant and personal wallpapers, and optional daylight dependency setup and service activation. GitHub downloads, dependency provisioning, and systemctl are replaced with local test doubles; the theme installer itself runs against temporary homes.
+
+The installer also ships distinct native `preview.png` files for both variants. A regression test covers installation and restoration of an existing custom preview.
