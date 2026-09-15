@@ -2,6 +2,25 @@
 
 A dark and light Omarchy theme named after the Jialing River in Chongqing. Graphite and porcelain surfaces, blue accents, translucent panels, soft window shadows, and a borderless lock-screen input.
 
+## Preview
+
+### Graphite · dark
+
+![Jialing dark theme with a translucent Ghostty window and the frosted Vitals panel](docs/screenshots/dark-vitals.png)
+
+### Porcelain · light
+
+![Jialing light theme with soft window shadows and the matching Vitals panel](docs/screenshots/light-vitals.png)
+
+<details>
+<summary>Notification styling</summary>
+
+![Jialing light theme with a translucent notification in the top-right corner](docs/screenshots/light-notification.png)
+
+</details>
+
+Real desktop captures staged on a separate workspace. The terminal contains demo text; Vitals shows live system readings. [Omarchy Vitals](https://github.com/lucasscariot/omarchy-vitals) and the personal bar arrangement shown are separate from the theme. Wallpaper: [Wallhaven exl2m8](https://wallhaven.cc/w/exl2m8), shown in context; the original image is not included as a theme asset.
+
 ## Appearance
 
 | | Dark | Light |
