@@ -2,6 +2,32 @@
 
 A dark and light Omarchy theme named after the Jialing River in Chongqing. Graphite and porcelain surfaces, blue accents, translucent panels, soft window shadows, and a borderless lock-screen input.
 
+## Quick install
+
+On Omarchy 4 with Lua Hyprland, paste this into a terminal:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/lucasscariot/omarchy-jialing/main/install.sh | bash
+```
+
+Installs both variants and applies the dark theme. Rerun the same command to update; an already selected Jialing light theme stays light. Existing settings are backed up, and the installer prints the restore path. No sudo is needed.
+
+**Prefer light?**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/lucasscariot/omarchy-jialing/main/install.sh | bash -s -- --variant light
+```
+
+**Switch automatically with daylight?** This opts into hourly approximate location lookup through ipapi.co, which sees your public IP:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/lucasscariot/omarchy-jialing/main/install.sh | bash -s -- --daylight --auto-location
+```
+
+This also sets up the isolated Python dependency and enables the user timer. If location lookup is unavailable, the current theme remains until a location is available; a [fixed fallback](#fixed-location-or-offline-fallback) can also be configured.
+
+The installer requires Git and Python 3.11+, normally available on supported Omarchy installations. It downloads this repository into a temporary directory, runs the [installer](install.py), then removes the temporary checkout. [Read the bootstrap script](install.sh) before running it if you prefer. Fonts, wallpaper, and companion plugins are separate; see the options below.
+
 ## Preview
 
 ### Graphite · dark
@@ -44,7 +70,7 @@ This repository contains **two native themes and optional setup tools**. Install
 
 Existing global appearance rules can override theme styling. Review your `~/.config/hypr/looknfeel.lua` if gaps, borders, or blur differ from the table. Personal keybindings, window layouts, bar layout, and plugins remain under your control. [Omarchy Vitals](https://github.com/lucasscariot/omarchy-vitals) is a separate companion plugin.
 
-## Install
+## Manual install and options
 
 Requires Python 3.11+ and an active Omarchy session. The basic installer uses only Python's standard library.
 
@@ -60,6 +86,20 @@ Use `--variant light` for the light palette. Add `--no-apply` to write files wit
 omarchy theme set jialing
 omarchy theme set jialing-light
 ```
+
+All `install.py` options also work with the one-line installer: append `-s --` after `bash`, followed by your options.
+
+| Option | Effect |
+|---|---|
+| `--variant light` | Apply the light theme |
+| `--wallpaper /path/to/image.jpg` | Add a local image to both variants |
+| `--profile` | Apply the optional global font and Ghostty profile |
+| `--daylight --auto-location` | Set up and enable automatic switching with IP location |
+| `--daylight --no-auto-location` | Use an existing fixed-location configuration |
+| `--no-apply` | Install files without changing the desktop or activating the timer |
+| `--restore /path/to/backup` | Restore a previous installation's files |
+
+Unlike the manual Python installer, the one-line bootstrap provisions Astral and activates the timer when `--daylight` is requested. With `--no-apply`, it provisions dependencies and writes the files but leaves timer activation to you.
 
 ### Wallpaper
 
@@ -141,7 +181,7 @@ journalctl --user -u jialing-daylight.service -n 20
 
 ## Update and restore
 
-Pull and rerun the same installation options. Installed theme assets are replaced; previous bytes are backed up. Extra files and backgrounds are retained. Daylight config values survive updates, including the existing lookup preference unless explicitly overridden.
+Rerun the one-line command with the same options, or pull a manual checkout and rerun its installer. Installed theme assets are replaced; previous bytes are backed up. Extra files and backgrounds are retained. Daylight config values survive updates, including the existing lookup preference unless explicitly overridden.
 
 ```bash
 git pull --ff-only
@@ -149,6 +189,12 @@ python install.py --variant light
 ```
 
 For scheduler updates, use its virtual-environment Python with `--daylight --no-apply`, then run `systemctl --user daemon-reload`.
+
+The one-line installer can also restore a backup without keeping a clone:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/lucasscariot/omarchy-jialing/main/install.sh | bash -s -- --restore /path/printed/by/installer
+```
 
 To restore, first select an available theme outside Jialing. If restoring scheduler files, stop the timer and service before restoring:
 
