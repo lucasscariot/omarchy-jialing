@@ -53,12 +53,33 @@ Real desktop captures staged on a separate workspace. The terminal contains demo
 |---|---|---|
 | Desktop palette | Graphite | Porcelain |
 | Bar panels and notifications | Translucent charcoal | Translucent white |
+| Super+Space menu | Frosted graphite | Frosted porcelain |
 | Window corners | 8 px | 8 px |
 | Inner / outer gaps | 5 / 10 px | 5 / 10 px |
 | Inactive window opacity | 85% | 85% |
 | Window animations | Disabled | Disabled |
 
 Both variants include native `preview.png` screenshots, so Omarchy’s theme selector shows the matching desktop UI instead of only a wallpaper.
+
+The Super+Space menu uses a blurred translucent card, a fine border, soft blue selection highlights, and gentle background dimming. Clipboard, emoji, and reminder pickers share this treatment. The surrounding desktop stays sharp.
+
+For a wider **420 px menu with a soft shadow**, run after installation:
+
+```bash
+python3 ~/.config/omarchy/themes/jialing/menu-theme.py
+```
+
+This creates or updates your own `omarchy.menu` plugin clone through Omarchy's
+plugin commands, backs up the original menu, and restarts the shell. Width and
+shadow follow `[menu] width` and `shadow-alpha` in both Jialing variants. These
+are Jialing integration keys; stock Omarchy ignores them. Other themes fall
+back to the native 300 px width with no added shadow. Special wide menus and
+caller-specified picker widths are preserved.
+
+The local clone survives system updates but does not automatically receive
+upstream menu changes. The setup script refuses an unfamiliar menu layout.
+To return to the packaged menu, run `omarchy plugin enable omarchy.menu`.
+Stronger compositor blur also applies to the theme's other frosted surfaces.
 
 Both variants include shell, Hyprland, and Ghostty styling. Ghostty uses iA Writer Mono S, 9 pt, with 14 px padding. The optional system font profile uses Inter for the UI. Native Omarchy templates generate other supported application colors from `colors.toml`.
 

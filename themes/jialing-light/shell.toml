@@ -176,21 +176,26 @@ selected-border           = "hyprland.active-border-foreground"
 selected-border-alpha     = 0.25
 
 [menu]
-# Cards, rows, and selected-row treatment. Alpha companions (where present)
-# go from 0 (invisible) to 1 (opaque). scrim is the full-screen dim layer
-# behind the card. Clipboard and emojis inherit these tokens.
-background                = "#F2F2F7"
-background-alpha          = 1.0
+# Frosted quick menu; clipboard, emoji, and reminder cards share this surface.
+# Keep the scrim below the Hyprland blur rule's ignore_alpha threshold so
+# only the card is frosted, while the surrounding desktop stays crisp.
+background                = "#FFFFFF"
+background-alpha          = 0.60
 text                      = "#1C1C1E"
-border                    = "hyprland.active-border-foreground"
-border-alpha              = 1.0
-scrim                     = "#F2F2F7"
-scrim-alpha               = 0.5
-selected-background       = "#1C1C1E"
-selected-background-alpha = 0.08
+border                    = "#000000"
+border-alpha              = 0.10
+border-width              = 1
+scrim                     = "#000000"
+scrim-alpha               = 0.12
+selected-background       = "#0066CC"
+selected-background-alpha = 0.10
 selected-text             = "#0066CC"
-selected-border           = "hyprland.active-border-foreground"
-selected-border-alpha     = 0.25
+selected-border           = "#0066CC"
+selected-border-alpha     = 0.0
+selected-border-width     = 0
+# Optional menu-theme.py integration; stock Omarchy ignores these two keys.
+width                     = 420
+shadow-alpha              = 0.24
 
 [polkit]
 # Polkit authentication prompt (sudo/password dialogs). scrim is the

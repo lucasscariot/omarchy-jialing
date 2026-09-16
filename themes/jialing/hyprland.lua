@@ -23,8 +23,8 @@ hl.config({
     },
     blur = {
       enabled = true,
-      size = 6,
-      passes = 2,
+      size = 10,
+      passes = 3,
       ignore_opacity = true,
     },
   },
@@ -32,9 +32,8 @@ hl.config({
 
 -- Frost the shell cards and bar flyouts, excluding transparent overlay areas.
 hl.layer_rule({
-  match = { namespace = "^(omarchy-bar|omarchy-keyboard-panel|omarchy-notifications|omarchy-osd|lucasscariot-notification-center)$" },
+  match = { namespace = "^(omarchy-bar|omarchy-keyboard-panel|omarchy-notifications|omarchy-osd|omarchy-menu|omarchy-clipboard|omarchy-emojis|omarchy-reminders|lucasscariot-notification-center)$" },
   blur = true,
   blur_popups = true,
   ignore_alpha = 0.2,
 })
-

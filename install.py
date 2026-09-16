@@ -253,7 +253,7 @@ def main():
         for theme in THEMES
         for name in ASSETS
     }
-    for name in ("herdr-theme.py", "herdr-theme-hook"):
+    for name in ("herdr-theme.py", "herdr-theme-hook", "menu-theme.py"):
         files[config / "omarchy/themes/jialing" / name] = (ROOT / "themes/jialing" / name).read_bytes()
     if args.wallpaper:
         if args.wallpaper.suffix.lower() not in (".jpg", ".jpeg", ".png", ".webp"):

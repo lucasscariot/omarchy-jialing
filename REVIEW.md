@@ -20,7 +20,8 @@ Reviewed native theme assets, optional font profile, installer/update/restore, a
 
 ## Validation
 
-- 24 unittest tests pass locally with Astral 3.2.
+- 27 unittest tests pass locally with Astral 3.2, including menu-clone setup,
+  repeated setup, backups, and refusal to overwrite unfamiliar menu code.
 - Ruff lint and formatting checks pass.
 - Theme TOML and Fontconfig XML parse successfully.
 - Both variants apply on Omarchy 4.0.3-1; `hyprctl reload` succeeds and `hyprctl configerrors` is empty.
@@ -32,6 +33,11 @@ Reviewed native theme assets, optional font profile, installer/update/restore, a
 ## Limits
 
 Tests do not render Quickshell or emulate a full desktop. Visual behavior relies on the supported Omarchy version and can be overridden by personal configuration. Lock styling was checked through Omarchy's preview during theme development; authentication behavior is untouched.
+
+The frosted quick menu was checked live in both variants, including the optional
+420 px width and soft shadow. That integration uses a local menu clone; it must
+be reviewed against future upstream menu changes. The theme's stronger blur is
+shared by other blurred desktop surfaces.
 
 Individual file replacements are atomic. An interrupted multi-file operation is not a filesystem transaction. Restore handles file contents; activation state, caches, empty directories, and selected desktop theme are managed separately. A very small race remains between the scheduler's final theme-name check and Omarchy acquiring its theme-update lock.
 
