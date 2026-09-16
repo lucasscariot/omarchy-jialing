@@ -54,6 +54,7 @@ Real desktop captures staged on a separate workspace. The terminal contains demo
 | Desktop palette | Graphite | Porcelain |
 | Bar panels and notifications | Translucent charcoal | Translucent white |
 | Super+Space menu | Frosted graphite | Frosted porcelain |
+| Privilege/password prompt | Frosted graphite | Frosted porcelain |
 | Window corners | 8 px | 8 px |
 | Inner / outer gaps | 5 / 10 px | 5 / 10 px |
 | Inactive window opacity | 85% | 85% |
@@ -62,6 +63,12 @@ Real desktop captures staged on a separate workspace. The terminal contains demo
 Both variants include native `preview.png` screenshots, so Omarchy’s theme selector shows the matching desktop UI instead of only a wallpaper.
 
 The Super+Space menu uses a blurred translucent card, a fine border, soft blue selection highlights, and gentle background dimming. Clipboard, emoji, and reminder pickers share this treatment. The surrounding desktop stays sharp.
+
+Omarchy's graphical privilege prompt also uses the frosted surface, fine border,
+and gentle dimming, with blue accents and clear red authentication errors.
+This uses native `[polkit]` theme settings and needs no plugin clone or extra
+setup. It styles the graphical prompt; terminal `sudo` prompts use the terminal's
+appearance.
 
 For a wider **420 px menu with a soft shadow**, run after installation:
 

@@ -198,20 +198,19 @@ width                     = 420
 shadow-alpha              = 0.32
 
 [polkit]
-# Polkit authentication prompt (sudo/password dialogs). scrim is the
-# darkening layer behind the card; background is the card itself.
-# text-error tints the lock icon, password text, and placeholder when
-# authentication fails. border-alpha applies to both border and
-# border-error (the two states are mutually exclusive in time).
-background       = "#1C1C1E"
-background-alpha = 1.0
+# Native privilege prompt: match the quick menu's frosted surface.
+# Embed idle border opacity in the color so the shared border-alpha can
+# stay at 1 and authentication errors retain a fully visible red border.
+background       = "#2C2C2E"
+background-alpha = 0.58
 text             = "#E5E5EA"
 text-error       = "#FF6961"
-border           = "hyprland.active-border"
+border           = "rgba(ffffff24)"
 border-error     = "#FF6961"
 border-alpha     = 1.0
-scrim            = "#1C1C1E"
-scrim-alpha      = 0.5
+border-width     = 1
+scrim            = "#000000"
+scrim-alpha      = 0.12
 # accent is the lock-icon glyph color + text-selection tint.
 accent           = "#0A84FF"
 
