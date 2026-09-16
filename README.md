@@ -118,6 +118,11 @@ are Jialing integration keys; stock Omarchy ignores them. Other themes fall
 back to the native 300 px width with no added shadow. Special wide menus and
 caller-specified picker widths are preserved.
 
+The setup also handles Omarchy versions that leave cloned menus without an
+application service: it uses Omarchy's own app-list component as a fallback,
+preserving app filtering, icons, and launch behavior. Re-run the command above
+after updating Jialing to apply this fix to an existing menu clone.
+
 The local clone survives system updates but does not automatically receive
 upstream menu changes. The setup script refuses an unfamiliar menu layout.
 To return to the packaged menu, run `omarchy plugin enable omarchy.menu`.

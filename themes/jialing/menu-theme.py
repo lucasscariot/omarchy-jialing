@@ -27,14 +27,32 @@ SHADOW = """    // Jialing: optional shadow, disabled for themes without the tok
     }
 
 """
+APP_LIBRARY = "  readonly property var appLibrary: root.shell ? root.shell.appLibrary : null"
+APP_LIBRARY_FALLBACK = """  // Jialing: some Omarchy versions omit the app service from menu clones.
+  readonly property var appLibrary: root.shell && root.shell.appLibrary
+    ? root.shell.appLibrary : fallbackAppLibrary.item
+  Loader {
+    id: fallbackAppLibrary
+    active: !!root.shell && !root.shell.appLibrary
+    sourceComponent: Component { Services.AppLibrary { } }
+    onLoaded: if (root.providersLoaded["apps"]) root.mergeAppRows()
+  }"""
 
 
 def themed_menu(source):
     """Refuse unknown layouts; preserve other changes and allow repeated runs."""
+    if APP_LIBRARY_FALLBACK not in source:
+        if source.count(APP_LIBRARY) != 1:
+            raise ValueError("Menu layout has changed; cannot find the application library")
+        source = source.replace(APP_LIBRARY, APP_LIBRARY_FALLBACK, 1)
+    if "import qs.services as Services\n" not in source:
+        source = "import qs.services as Services\n" + source
     if THEMED_WIDTH in source and SHADOW in source and "import QtQuick.Effects\n" in source:
         return source
     if source.count(WIDTH) != 1 or source.count(CARD) != 1:
-        raise ValueError("Menu layout has changed; refusing to overwrite it. Review Menu.qml first.")
+        raise ValueError(
+            "Menu layout has changed; refusing to overwrite it. Review Menu.qml first."
+        )
     if "import QtQuick.Effects\n" not in source:
         if source.count("import QtQuick\n") != 1:
             raise ValueError("Cannot find the menu's QtQuick import")

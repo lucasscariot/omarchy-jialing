@@ -9,15 +9,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SCRIPT = ROOT / "themes/jialing/menu-theme.py"
 
-# Only the two insertion sites matter to setup; real QML rendering is checked
+# Only the insertion sites matter to setup; real QML rendering is checked
 # in the installed shell, rather than imitated by this fixture.
-MENU = '''import QtQuick
+MENU = """import QtQuick
 // Personal customization
+  readonly property var appLibrary: root.shell ? root.shell.appLibrary : null
 property int cardWidth: Math.min(root.dmenuActive ? Style.space(root.dmenuWidth) : ((root.activeMenu === "style.font") ? Style.space(520) : Style.space(300)), panel.width - Style.gapsOut * 2)
     BorderSurface {
       id: card
     }
-'''
+"""
 
 
 class MenuSetupTests(unittest.TestCase):
@@ -69,6 +70,9 @@ class MenuSetupTests(unittest.TestCase):
         self.assertIn('Color.pickAlpha("menu.shadow-alpha", 0)', installed)
         self.assertIn("root.dmenuWidth", installed)
         self.assertIn("Style.space(520)", installed)
+        self.assertIn("import qs.services as Services", installed)
+        self.assertIn("active: !!root.shell && !root.shell.appLibrary", installed)
+        self.assertIn("Services.AppLibrary", installed)
         self.assertEqual((self.upstream / "Menu.qml").read_text(), MENU)
         backups = list((self.home / ".local/state/jialing/menu-backups").glob("*/Menu.qml"))
         self.assertEqual(len(backups), 1)
@@ -80,6 +84,23 @@ class MenuSetupTests(unittest.TestCase):
         commands = [json.loads(line) for line in self.commands.read_text().splitlines()]
         self.assertEqual(commands.count(["plugin", "clone", "omarchy.menu"]), 1)
         self.assertEqual(commands[-2:], [["plugin", "enable", "tester.menu"], ["restart", "shell"]])
+
+    def test_existing_themed_clone_receives_app_library_fix(self):
+        self.assertEqual(self.run_setup().returncode, 0)
+        target = self.plugin / "Menu.qml"
+        fixed = target.read_text()
+        start = fixed.index("  // Jialing: some Omarchy versions")
+        end = fixed.index("\n  }", start) + len("\n  }")
+        old = (
+            fixed[:start]
+            + ("  readonly property var appLibrary: root.shell ? root.shell.appLibrary : null")
+            + fixed[end:]
+        )
+        old = old.replace("import qs.services as Services\n", "")
+        target.write_text(old)
+        result = self.run_setup()
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(target.read_text(), fixed)
 
     def test_unknown_upstream_layout_is_rejected_before_cloning(self):
         (self.upstream / "Menu.qml").write_text("new upstream layout")

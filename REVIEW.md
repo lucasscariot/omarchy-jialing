@@ -1,5 +1,19 @@
 # Review notes
 
+## Cloned menu application fallback
+
+The live Apps menu reproduced an empty list despite 67 desktop entries: the
+`lucas.menu` shell facade had a null `appLibrary`, including after a shell
+restart. The menu setup now loads the packaged `AppLibrary` component only
+when the host does not supply that service. This retains Omarchy's hidden-entry
+filters, icon lookup, and application actions without editing packaged files.
+
+The live menu displayed 50 visible apps after the change and after removing
+diagnostic instrumentation and restarting. The 34-test suite includes upgrading
+an already themed clone; rendering and service availability were checked in the
+actual desktop, not simulated by the Python tests. The underlying host-side
+reason for the null facade remains outside this compatibility fix.
+
 ## Scope
 
 Reviewed native theme assets, optional font profile, installer/update/restore, and the daylight scheduler. Tests target the two agreed user-facing boundaries: installation and daylight behavior.
