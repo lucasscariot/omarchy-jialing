@@ -48,3 +48,25 @@ IP location is approximate and may reflect a VPN endpoint. No wallpaper or font 
 `install.sh` bootstraps the existing installer from a temporary Git checkout. Five additional CLI tests cover argument forwarding and restore, download-failure cleanup, compatibility checks before downloading, repeat updates that preserve the light variant and personal wallpapers, and optional daylight dependency setup and service activation. GitHub downloads, dependency provisioning, and systemctl are replaced with local test doubles; the theme installer itself runs against temporary homes.
 
 The installer also ships distinct native `preview.png` files for both variants. A regression test covers installation and restoration of an existing custom preview.
+
+## WhiteSur default icons
+
+Both theme variants now select a matching WhiteSur variant through `icons.theme`.
+The installer provisions the pinned 2026-09-10 upstream release into versioned,
+Jialing-specific user icon directories before applying the theme. It verifies the
+download checksum and includes upstream licensing and source attribution. Icon
+dependencies are retained when restoring theme-file backups.
+
+The 33-test suite passes. Icon tests cover offline cache reuse, checksum failures,
+relative links across light/dark variants, paths containing spaces, preservation
+of existing WhiteSur installations, repeated installs, incomplete installations,
+upstream installation failure, and failure while copying the staged icons.
+CLI tests verify both installed theme selections resolve to installed icon sets.
+Network access is mocked and CLI fixtures supply an already-installed dependency.
+
+The real upstream installer ran locally without root. All three GTK icon caches
+validate; representative folder/application icons and licensing files resolve in
+both variants. Applying Jialing Light selects
+`Jialing-WhiteSur-2026-09-10-light`; Hyprland reloads without config errors and
+Chromium remains the default browser. Ruff checks, Python compilation, shell
+syntax, and whitespace checks pass.

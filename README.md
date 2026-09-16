@@ -10,7 +10,7 @@ On Omarchy 4 with Lua Hyprland, paste this into a terminal:
 curl -fsSL https://raw.githubusercontent.com/lucasscariot/omarchy-jialing/main/install.sh | bash
 ```
 
-Installs both variants and applies the dark theme. Rerun the same command to update; an already selected Jialing light theme stays light. Existing settings are backed up, and the installer prints the restore path. No sudo is needed.
+Installs both variants, their WhiteSur icons, and applies the dark theme. Rerun the same command to update; an already selected Jialing light theme stays light. Existing settings are backed up, and the installer prints the restore path. No sudo is needed.
 
 **Prefer light?**
 
@@ -52,6 +52,7 @@ Real desktop captures staged on a separate workspace. The terminal contains demo
 | | Dark | Light |
 |---|---|---|
 | Desktop palette | Graphite | Porcelain |
+| Icons | WhiteSur blue folders, light controls | WhiteSur blue folders, dark controls |
 | Bar panels and notifications | Translucent charcoal | Translucent white |
 | Super+Space menu | Frosted graphite | Frosted porcelain |
 | Privilege/password prompt | Frosted graphite | Frosted porcelain |
@@ -61,6 +62,40 @@ Real desktop captures staged on a separate workspace. The terminal contains demo
 | Window animations | Disabled | Disabled |
 
 Both variants include native `preview.png` screenshots, so Omarchy’s theme selector shows the matching desktop UI instead of only a wallpaper.
+
+### WhiteSur icons
+
+[WhiteSur](https://github.com/vinceliuice/WhiteSur-icon-theme) is included in the
+default installation: macOS-inspired application icons, blue folders, and
+regular-weight panel icons. Omarchy reads each variant's `icons.theme`, so the
+appropriate light/dark icons follow manual theme changes and daylight switching.
+No separate icon installation command is needed.
+
+The installer downloads upstream release **2026-09-10**, pinned to commit
+`73d8040da51a9ed74e47c7366e7e9ff437601a5c`, verifies its SHA-256 checksum, and runs
+the pinned icon installer in a temporary staging directory. It installs the base,
+light, and dark sets under `~/.local/share/icons/Jialing-WhiteSur-2026-09-10*`
+(or `$XDG_DATA_HOME/icons`). The Jialing-specific names preserve any existing
+WhiteSur installation. Repeat installs reuse these icons. An incomplete icon
+installation is reported without replacing its contents.
+
+The first install needs access to GitHub, Bash, and `gtk-update-icon-cache`,
+normally present on Omarchy. The verified source archive is cached under
+`~/.cache/jialing/` (or `$XDG_CACHE_HOME/jialing`) for offline reuse. `--no-apply`
+also installs the icons, but does not change the selected desktop icon theme.
+If downloading or installing the icons fails, the Jialing theme files are not
+changed.
+
+WhiteSur remains a separate **GPL-3.0** dependency. Its license, authors, and
+pinned source URL are copied into each installed icon directory. Restoring a
+Jialing backup restores its theme files, including `icons.theme`, but retains the
+icon dependency and download cache. Once no theme uses them, the three
+`Jialing-WhiteSur-2026-09-10*` icon directories can be removed manually.
+
+Applications that use the desktop icon theme pick up these icons; applications
+with bundled toolbar artwork, Zen tab-folder icons, and websites do not. Restart
+applications if they retain cached icons. The theme does not replace their
+internal UI or change the default browser.
 
 The Super+Space menu uses a blurred translucent card, a fine border, soft blue selection highlights, and gentle background dimming. Clipboard, emoji, and reminder pickers share this treatment. The surrounding desktop stays sharp.
 

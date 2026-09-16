@@ -6,6 +6,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from icon_fixture import installed_icons
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -15,12 +17,14 @@ class InstallTests(unittest.TestCase):
         self.addCleanup(self.temp.cleanup)
         self.home = Path(self.temp.name)
         self.config = self.home / "config"
+        installed_icons(self.home / "data")
         self.env = dict(
             os.environ,
             HOME=str(self.home),
             XDG_CONFIG_HOME=str(self.config),
             XDG_DATA_HOME=str(self.home / "data"),
             XDG_STATE_HOME=str(self.home / "state"),
+            XDG_CACHE_HOME=str(self.home / "cache"),
         )
 
     def run_cli(self, *args, success=True):
@@ -43,6 +47,12 @@ class InstallTests(unittest.TestCase):
         report = self.run_cli()
         for theme in ("jialing", "jialing-light"):
             self.assertTrue((self.config / "omarchy/themes" / theme / "colors.toml").is_file())
+            icon_name = (self.config / "omarchy/themes" / theme / "icons.theme").read_text().strip()
+            self.assertTrue((self.home / "data/icons" / icon_name / "index.theme").is_file())
+        self.assertNotEqual(
+            (self.config / "omarchy/themes/jialing/icons.theme").read_text(),
+            (self.config / "omarchy/themes/jialing-light/icons.theme").read_text(),
+        )
         self.assertEqual(background.read_bytes(), b"personal wallpaper")
         self.assertTrue(Path(report["backup"]).is_dir())
 

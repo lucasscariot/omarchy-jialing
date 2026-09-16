@@ -16,9 +16,19 @@ from datetime import datetime
 from pathlib import Path
 from xml.sax.saxutils import escape
 
+from icons import ensure_icons
+
 ROOT = Path(__file__).resolve().parent
 THEMES = ("jialing", "jialing-light")
-ASSETS = ("colors.toml", "shell.toml", "hyprland.lua", "ghostty.conf", "preview.png", "herdr.toml")
+ASSETS = (
+    "colors.toml",
+    "shell.toml",
+    "hyprland.lua",
+    "ghostty.conf",
+    "preview.png",
+    "herdr.toml",
+    "icons.theme",
+)
 
 
 def location_root(variable, fallback):
@@ -42,13 +52,17 @@ def atomic_write(path, data):
         temporary.unlink(missing_ok=True)
 
 
-def write_files(files, state):
-    # Preflight the entire set before changing any destination.
+def check_destinations(files):
+    # Preflight the entire set before installing dependencies or changing files.
     for path in files:
         if path.is_symlink() or any(parent.is_symlink() for parent in path.parents):
             raise ValueError("Refusing symlink destination: " + str(path))
         if path.exists() and not path.is_file():
             raise ValueError("Expected a file: " + str(path))
+
+
+def write_files(files, state):
+    check_destinations(files)
     backup = state / "jialing/backups" / datetime.now().strftime("%Y%m%d-%H%M%S-%f")
     backup.mkdir(parents=True, mode=0o700)
     entries = []
@@ -254,7 +268,9 @@ def main():
         for name in ASSETS
     }
     for name in ("herdr-theme.py", "herdr-theme-hook", "menu-theme.py"):
-        files[config / "omarchy/themes/jialing" / name] = (ROOT / "themes/jialing" / name).read_bytes()
+        files[config / "omarchy/themes/jialing" / name] = (
+            ROOT / "themes/jialing" / name
+        ).read_bytes()
     if args.wallpaper:
         if args.wallpaper.suffix.lower() not in (".jpg", ".jpeg", ".png", ".webp"):
             parser.error("--wallpaper requires a JPG, PNG, or WebP file")
@@ -276,6 +292,11 @@ def main():
                 args.auto_location,
             )
         )
+    check_destinations(files)
+    ensure_icons(
+        location_root("XDG_DATA_HOME", ".local/share"),
+        location_root("XDG_CACHE_HOME", ".cache"),
+    )
     backup = write_files(files, state)
     print(json.dumps({"backup": str(backup), "themes": list(THEMES)}), flush=True)
     if not args.no_apply:

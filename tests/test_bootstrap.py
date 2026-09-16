@@ -8,6 +8,8 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from icon_fixture import installed_icons
+
 ROOT = Path(__file__).resolve().parents[1]
 
 
@@ -16,6 +18,7 @@ class BootstrapTests(unittest.TestCase):
         self.temp = tempfile.TemporaryDirectory(prefix="jialing bootstrap ")
         self.addCleanup(self.temp.cleanup)
         self.home = Path(self.temp.name)
+        installed_icons(self.home / "data")
         self.bin = self.home / "bin"
         self.bin.mkdir()
         git = self.bin / "git"
@@ -34,6 +37,7 @@ class BootstrapTests(unittest.TestCase):
             XDG_CONFIG_HOME=str(self.home / "config"),
             XDG_STATE_HOME=str(self.home / "state"),
             XDG_DATA_HOME=str(self.home / "data"),
+            XDG_CACHE_HOME=str(self.home / "cache"),
             TMPDIR=str(self.home),
         )
 
