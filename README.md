@@ -53,6 +53,7 @@ Real desktop captures staged on a separate workspace. The terminal contains demo
 |---|---|---|
 | Desktop palette | Graphite | Porcelain |
 | Icons | WhiteSur blue folders, light controls | WhiteSur blue folders, dark controls |
+| Top bar | Frosted graphite, 62% opacity | Frosted porcelain, 62% opacity |
 | Bar panels and notifications | Translucent charcoal | Translucent white |
 | Super+Space menu | Frosted graphite | Frosted porcelain |
 | Privilege/password prompt | Frosted graphite | Frosted porcelain |

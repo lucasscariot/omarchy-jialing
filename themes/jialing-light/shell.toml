@@ -5,7 +5,8 @@
 [bar]
 # Alpha companions (where present) range from 0 (invisible) to 1 (opaque).
 background       = "#F2F2F7"
-background-alpha = 1.0
+# Translucency reveals the compositor blur already enabled for omarchy-bar.
+background-alpha = 0.62
 text             = "#1C1C1E"
 # Modules calling attention to themselves (recording, voxtype, alerts, updates)
 active           = "#B4232C"
