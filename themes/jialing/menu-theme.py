@@ -58,8 +58,51 @@ SCROLL_HANDLER = """
 """
 
 
+# Exact upstream block: refuse changed scrims instead of removing unrelated QML.
+SCROLL_SCRIMS = """          // Scroll scrims. The clipped row already marks the fold at rest;
+          // these keep both edges honest once the list has been scrolled,
+          // when content hides above the card top as well as below. Strength
+          // tracks the distance still hidden past each edge rather than
+          // animating on a clock, so a programmatic jump — wrapping from the
+          // last row back to the first — lands with the fade already applied.
+          Rectangle {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            height: Math.min(Style.space(28), parent.height / 2)
+            visible: opacity > 0
+            opacity: resultList.contentHeight > resultList.height
+              ? Math.max(0, Math.min(1, (resultList.contentY - resultList.originY) / height))
+              : 0
+            gradient: Gradient {
+              GradientStop { position: 0; color: root.background }
+              GradientStop { position: 1; color: Util.alpha(root.background, 0) }
+            }
+          }
+
+          Rectangle {
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+            height: Math.min(Style.space(28), parent.height / 2)
+            visible: opacity > 0
+            opacity: resultList.contentHeight > resultList.height
+              ? Math.max(0, Math.min(1, (resultList.originY + resultList.contentHeight - resultList.height - resultList.contentY) / height))
+              : 0
+            gradient: Gradient {
+              GradientStop { position: 0; color: Util.alpha(root.background, 0) }
+              GradientStop { position: 1; color: root.background }
+            }
+          }
+
+"""
+
 def themed_menu(source):
     """Refuse unknown layouts; preserve other changes and allow repeated runs."""
+    if "// Scroll scrims." in source:
+        if source.count(SCROLL_SCRIMS) != 1:
+            raise ValueError("Menu layout has changed; cannot remove scroll scrims safely")
+        source = source.replace(SCROLL_SCRIMS, "", 1)
     if SCROLL_HANDLER not in source:
         if source.count(SCROLL_ANCHOR) != 1:
             raise ValueError("Menu layout has changed; cannot find the scroll viewport")
