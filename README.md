@@ -125,6 +125,32 @@ This adds an included Fontconfig rule file, sets GTK 3/4's font to `Inter 11`, a
 
 The profile is global and remains in effect when selecting another theme. Use the printed backup to undo it. Missing fonts fall back through Fontconfig; the installer does not download fonts or change the default terminal.
 
+## Herdr
+
+Both variants include matching Herdr custom palettes for surfaces, text, tabs,
+and status colors. After installing Jialing, opt into synchronization:
+
+```sh
+omarchy hook install theme-set ~/.config/omarchy/themes/jialing/herdr-theme-hook
+python3 ~/.config/omarchy/themes/jialing/herdr-theme.py
+```
+
+This uses Herdr's supported `[theme.custom]` overrides and live config reload,
+connected through Omarchy's `theme-set` hook. The Python synchronization script
+is a Jialing integration, not an upstream Herdr feature. It follows manual and
+daylight switches between Jialing variants without restarting panes. Other
+Omarchy themes leave the last Herdr palette in place.
+
+Shortcuts, plugins, and non-theme settings are preserved. The original Herdr
+configuration is backed up once to `~/.config/herdr/config.toml.before-jialing`.
+The palettes are custom overrides, not entries in Herdr's built-in theme selector.
+If changing `colors.toml`, update the corresponding `herdr.toml` as well.
+
+To disable synchronization, remove
+`~/.config/omarchy/hooks/theme-set.d/herdr-theme-hook`. To restore the original
+appearance, copy the `[theme]`, `[theme.custom]`, and `[ui].accent` settings from
+the backup into your current Herdr config, then run `herdr server reload-config`.
+
 ## Automatic daylight switching
 
 The optional scheduler checks once a minute. Sunrise selects `jialing-light`; sunset selects `jialing`. Astral calculates sun times locally. Polar day/night use solar elevation.

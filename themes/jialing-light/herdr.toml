@@ -1,0 +1,25 @@
+[theme]
+# jialing-light: generated from colors.toml; applied by Jialing’s theme hook.
+name = "catppuccin-latte"
+auto_switch = false
+
+[theme.custom]
+accent = "#0066CC"
+panel_bg = "#F2F2F7"
+sidebar_bg = "#E5E5EA"
+active_row_bg = "#CCE3FF"
+selection_bg = "#CCE3FF"
+surface0 = "#FFFFFF"
+surface1 = "#8E8E93"
+surface_dim = "#D1D1D6"
+overlay0 = "#636366"
+overlay1 = "#636366"
+text = "#1C1C1E"
+subtext0 = "#636366"
+mauve = "#8544AF"
+green = "#237A3B"
+yellow = "#806000"
+red = "#B4232C"
+blue = "#005DBB"
+teal = "#006B80"
+peach = "#A64B00"

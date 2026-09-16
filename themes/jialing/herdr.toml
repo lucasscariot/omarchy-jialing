@@ -1,0 +1,25 @@
+[theme]
+# jialing: generated from colors.toml; applied by Jialing’s theme hook.
+name = "vesper"
+auto_switch = false
+
+[theme.custom]
+accent = "#0A84FF"
+panel_bg = "#1C1C1E"
+sidebar_bg = "#161618"
+active_row_bg = "#264769"
+selection_bg = "#264769"
+surface0 = "#2C2C2E"
+surface1 = "#636366"
+surface_dim = "#101012"
+overlay0 = "#98989D"
+overlay1 = "#98989D"
+text = "#E5E5EA"
+subtext0 = "#98989D"
+mauve = "#BF8AF2"
+green = "#32D74B"
+yellow = "#FFD60A"
+red = "#FF6961"
+blue = "#5AA9FF"
+teal = "#64D2FF"
+peach = "#FF9F0A"

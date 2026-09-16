@@ -18,7 +18,7 @@ from xml.sax.saxutils import escape
 
 ROOT = Path(__file__).resolve().parent
 THEMES = ("jialing", "jialing-light")
-ASSETS = ("colors.toml", "shell.toml", "hyprland.lua", "ghostty.conf", "preview.png")
+ASSETS = ("colors.toml", "shell.toml", "hyprland.lua", "ghostty.conf", "preview.png", "herdr.toml")
 
 
 def location_root(variable, fallback):
@@ -253,6 +253,8 @@ def main():
         for theme in THEMES
         for name in ASSETS
     }
+    for name in ("herdr-theme.py", "herdr-theme-hook"):
+        files[config / "omarchy/themes/jialing" / name] = (ROOT / "themes/jialing" / name).read_bytes()
     if args.wallpaper:
         if args.wallpaper.suffix.lower() not in (".jpg", ".jpeg", ".png", ".webp"):
             parser.error("--wallpaper requires a JPG, PNG, or WebP file")
