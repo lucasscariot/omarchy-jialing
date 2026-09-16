@@ -37,10 +37,33 @@ APP_LIBRARY_FALLBACK = """  // Jialing: some Omarchy versions omit the app servi
     sourceComponent: Component { Services.AppLibrary { } }
     onLoaded: if (root.providersLoaded["apps"]) root.mergeAppRows()
   }"""
+SCROLL_ANCHOR = "            boundsBehavior: Flickable.StopAtBounds\n"
+SCROLL_HANDLER = """
+            // Jialing: proportional scrolling keeps small trackpad events responsive.
+            WheelHandler {
+              target: null
+              acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad
+              onWheel: event => {
+                var delta = event.pixelDelta.y !== 0 ? event.pixelDelta.y : event.angleDelta.y / 120 * 48
+                if (delta === 0) return
+                var touchpad = event.pixelDelta.y !== 0 || event.device.type === PointerDevice.TouchPad
+                  || event.phase !== Qt.NoScrollPhase
+                var speed = touchpad ? 8 : 3
+                resultList.cancelFlick()
+                var end = resultList.originY + Math.max(0, resultList.contentHeight - resultList.height)
+                resultList.contentY = Math.max(resultList.originY, Math.min(end, resultList.contentY - delta * speed))
+                event.accepted = true
+              }
+            }
+"""
 
 
 def themed_menu(source):
     """Refuse unknown layouts; preserve other changes and allow repeated runs."""
+    if SCROLL_HANDLER not in source:
+        if source.count(SCROLL_ANCHOR) != 1:
+            raise ValueError("Menu layout has changed; cannot find the scroll viewport")
+        source = source.replace(SCROLL_ANCHOR, SCROLL_ANCHOR + SCROLL_HANDLER, 1)
     if APP_LIBRARY_FALLBACK not in source:
         if source.count(APP_LIBRARY) != 1:
             raise ValueError("Menu layout has changed; cannot find the application library")

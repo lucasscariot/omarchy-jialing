@@ -1,5 +1,15 @@
 # Review notes
 
+## Overlay trackpad scrolling
+
+The customized menu now handles small trackpad events proportionally and clamps
+the viewport at either end. A replay of 20 two-pixel events through Qt Quick
+moved the original ListView 36 px; the themed handler moves it 320 px. The
+notification drawer was checked separately with its full notification list.
+The local compositor touchpad factor remains 0.15, preserving normal-app speed.
+The user confirmed the initial 6× setting helped and requested a faster feel;
+the final setting is 8×. Physical feel at that final setting remains subjective.
+
 ## Cloned menu application fallback
 
 The live Apps menu reproduced an empty list despite 67 desktop entries: the

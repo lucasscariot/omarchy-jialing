@@ -123,6 +123,10 @@ application service: it uses Omarchy's own app-list component as a fallback,
 preserving app filtering, icons, and launch behavior. Re-run the command above
 after updating Jialing to apply this fix to an existing menu clone.
 
+The cloned menu also uses proportional wheel and trackpad scrolling, with an
+8× trackpad multiplier for small scroll deltas. This changes only the overlay;
+compositor-wide input settings and scrolling in normal applications stay as-is.
+
 The local clone survives system updates but does not automatically receive
 upstream menu changes. The setup script refuses an unfamiliar menu layout.
 To return to the packaged menu, run `omarchy plugin enable omarchy.menu`.

@@ -14,6 +14,7 @@ SCRIPT = ROOT / "themes/jialing/menu-theme.py"
 MENU = """import QtQuick
 // Personal customization
   readonly property var appLibrary: root.shell ? root.shell.appLibrary : null
+            boundsBehavior: Flickable.StopAtBounds
 property int cardWidth: Math.min(root.dmenuActive ? Style.space(root.dmenuWidth) : ((root.activeMenu === "style.font") ? Style.space(520) : Style.space(300)), panel.width - Style.gapsOut * 2)
     BorderSurface {
       id: card
@@ -73,6 +74,8 @@ class MenuSetupTests(unittest.TestCase):
         self.assertIn("import qs.services as Services", installed)
         self.assertIn("active: !!root.shell && !root.shell.appLibrary", installed)
         self.assertIn("Services.AppLibrary", installed)
+        self.assertIn("var speed = touchpad ? 8 : 3", installed)
+        self.assertEqual(installed.count("WheelHandler {"), 1)
         self.assertEqual((self.upstream / "Menu.qml").read_text(), MENU)
         backups = list((self.home / ".local/state/jialing/menu-backups").glob("*/Menu.qml"))
         self.assertEqual(len(backups), 1)
@@ -97,6 +100,9 @@ class MenuSetupTests(unittest.TestCase):
             + fixed[end:]
         )
         old = old.replace("import qs.services as Services\n", "")
+        scroll_start = old.index("\n            // Jialing: proportional scrolling")
+        scroll_end = old.index("\n            }\n", scroll_start) + len("\n            }\n")
+        old = old[:scroll_start] + old[scroll_end:]
         target.write_text(old)
         result = self.run_setup()
         self.assertEqual(result.returncode, 0, result.stderr)
