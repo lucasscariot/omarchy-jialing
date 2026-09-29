@@ -12,7 +12,7 @@ hl.config({
     col = { active_border = "#0A84FF", inactive_border = "#636366" },
   },
   decoration = {
-    rounding = 8,
+    rounding = 0,
     active_opacity = 1.0,
     inactive_opacity = 0.85,
     shadow = {
@@ -32,7 +32,7 @@ hl.config({
 
 -- Frost the shell cards and bar flyouts, excluding transparent overlay areas.
 hl.layer_rule({
-  match = { namespace = "^(omarchy-bar|omarchy-keyboard-panel|omarchy-notifications|omarchy-osd|omarchy-menu|omarchy-clipboard|omarchy-emojis|omarchy-reminders|omarchy-polkit|lucasscariot-notification-center)$" },
+  match = { namespace = "^(omarchy-bar|omarchy-keyboard-panel|omarchy-notifications|omarchy-osd|omarchy-menu|omarchy-clipboard|omarchy-emojis|omarchy-reminders|omarchy-polkit)$" },
   blur = true,
   blur_popups = true,
   ignore_alpha = 0.2,

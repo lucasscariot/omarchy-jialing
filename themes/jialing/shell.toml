@@ -194,9 +194,6 @@ selected-text             = "#0A84FF"
 selected-border           = "#0A84FF"
 selected-border-alpha     = 0.0
 selected-border-width     = 0
-# Optional menu-theme.py integration; stock Omarchy ignores these two keys.
-width                     = 420
-shadow-alpha              = 0.32
 
 [polkit]
 # Native privilege prompt: match the quick menu's frosted surface.
