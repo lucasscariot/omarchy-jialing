@@ -16,11 +16,12 @@ THEME = "jialing"
 ASSETS = (
     "colors.toml",
     "shell.toml",
+    "preview.png",
+)
+LOCAL_ASSETS = (
     "hyprland.lua",
-    "ghostty.conf",
     "herdr.toml",
     "herdr-theme.py",
-    "preview.png",
 )
 
 
@@ -70,18 +71,21 @@ def write_files(files, state, executables=()):
             {
                 "path": str(path),
                 "old": str(index) if old is not None else None,
-                "installed_sha256": digest(data),
+                "installed_sha256": digest(data) if data is not None else None,
                 "old_mode": old_mode,
-                "installed_mode": 0o755
-                if path in executables
-                else (old_mode if old_mode is not None else 0o600),
+                "installed_mode": None if data is None else (
+                    0o755 if path in executables else (old_mode if old_mode is not None else 0o600)
+                ),
             }
         )
     (backup / "manifest.json").write_text(json.dumps(entries, indent=2))
     completed = []
     try:
         for entry, (path, data) in zip(entries, files.items()):
-            atomic_write(path, data, entry["installed_mode"])
+            if data is None:
+                path.unlink(missing_ok=True)
+            else:
+                atomic_write(path, data, entry["installed_mode"])
             completed.append(entry)
     except OSError:
         for entry in reversed(completed):
@@ -101,10 +105,14 @@ def restore(backup):
         path = Path(entry["path"])
         if path.is_symlink() or any(parent.is_symlink() for parent in path.parents):
             raise ValueError("Refusing symlink restore: " + str(path))
-        if not path.is_file() or digest(path.read_bytes()) != entry["installed_sha256"]:
-            raise ValueError("File changed since installation: " + str(path))
-        if "installed_mode" in entry and path.stat().st_mode & 0o777 != entry["installed_mode"]:
-            raise ValueError("File permissions changed since installation: " + str(path))
+        if entry["installed_sha256"] is None:
+            if path.exists():
+                raise ValueError("File changed since installation: " + str(path))
+        else:
+            if not path.is_file() or digest(path.read_bytes()) != entry["installed_sha256"]:
+                raise ValueError("File changed since installation: " + str(path))
+            if "installed_mode" in entry and path.stat().st_mode & 0o777 != entry["installed_mode"]:
+                raise ValueError("File permissions changed since installation: " + str(path))
     originals = {
         entry["path"]: (backup / entry["old"]).read_bytes()
         for entry in entries
@@ -113,7 +121,7 @@ def restore(backup):
     for entry in entries:
         path = Path(entry["path"])
         if entry["old"] is None:
-            path.unlink()
+            path.unlink(missing_ok=True)
         else:
             atomic_write(path, originals[entry["path"]], entry.get("old_mode"))
 
@@ -131,9 +139,13 @@ def main():
     config = location_root("XDG_CONFIG_HOME", ".config")
     state = location_root("XDG_STATE_HOME", ".local/state")
     target = config / "omarchy/themes" / THEME
-    files = {target / name: (ROOT / "themes" / THEME / name).read_bytes() for name in ASSETS}
+    if (target / ".git").exists():
+        raise ValueError("Jialing was installed with 'omarchy theme install'; remove that clone before using the local installer")
+    files = {target / name: (ROOT / name).read_bytes() for name in ASSETS}
+    files.update({target / name: (ROOT / ".local-theme" / name).read_bytes() for name in LOCAL_ASSETS})
+    files[target / "ghostty.conf"] = None  # Let Omarchy generate terminal colors from colors.toml.
     hook = config / "omarchy/hooks/theme-set.d/jialing-herdr"
-    files[hook] = (ROOT / "themes" / THEME / "herdr-theme-hook").read_bytes()
+    files[hook] = (ROOT / ".local-theme" / "herdr-theme-hook").read_bytes()
     backup = write_files(files, state, executables={hook})
     print(json.dumps({"backup": str(backup), "theme": THEME}), flush=True)
     if not args.no_apply:

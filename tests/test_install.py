@@ -9,7 +9,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ASSETS = {"colors.toml", "shell.toml", "hyprland.lua", "ghostty.conf", "herdr.toml", "herdr-theme.py", "preview.png"}
+ASSETS = {"colors.toml", "shell.toml", "hyprland.lua", "herdr.toml", "herdr-theme.py", "preview.png"}
 
 
 class InstallTests(unittest.TestCase):
@@ -68,6 +68,18 @@ class InstallTests(unittest.TestCase):
         self.run_cli("--restore", report["backup"], success=False)
         self.assertEqual(asset.read_text(), "my later changes")
 
+    def test_upgrade_removes_legacy_ghostty_override_and_restore_recovers_it(self):
+        old = self.config / "omarchy/themes/jialing/ghostty.conf"
+        old.parent.mkdir(parents=True)
+        old.write_text("old ghostty override")
+        report = self.run_cli()
+        self.assertFalse(old.exists())
+        old.write_text("new user override")
+        self.run_cli("--restore", report["backup"], success=False)
+        old.unlink()
+        self.run_cli("--restore", report["backup"])
+        self.assertEqual(old.read_text(), "old ghostty override")
+
     def test_symlink_destination_is_rejected_before_any_write(self):
         outside = self.home / "outside"
         outside.mkdir()
@@ -76,6 +88,14 @@ class InstallTests(unittest.TestCase):
         target.symlink_to(outside, target_is_directory=True)
         self.run_cli(success=False)
         self.assertEqual(list(outside.iterdir()), [])
+
+    def test_local_installer_does_not_modify_standard_git_clone(self):
+        target = self.config / "omarchy/themes/jialing"
+        (target / ".git").mkdir(parents=True)
+        (target / "colors.toml").write_text("standard install")
+        result = self.run_cli(success=False)
+        self.assertIn("omarchy theme install", result.stderr)
+        self.assertEqual((target / "colors.toml").read_text(), "standard install")
 
     def test_incomplete_backup_refuses_restore_before_any_change(self):
         original = self.config / "omarchy/themes/jialing/colors.toml"
@@ -94,5 +114,5 @@ class InstallTests(unittest.TestCase):
         self.run_cli()
         self.assertEqual(
             (self.config / "omarchy/themes/jialing/preview.png").read_bytes(),
-            (ROOT / "themes/jialing/preview.png").read_bytes(),
+            (ROOT / "preview.png").read_bytes(),
         )

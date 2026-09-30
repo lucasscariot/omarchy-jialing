@@ -1,6 +1,5 @@
 """Keep secondary terminal text legible on Jialing's dark surfaces."""
 
-import re
 import tomllib
 import unittest
 from pathlib import Path
@@ -21,9 +20,7 @@ def contrast(a, b):
 
 class ContrastTests(unittest.TestCase):
     def test_secondary_terminal_text_is_legible_on_dark_surfaces(self):
-        colors = tomllib.loads((ROOT / 'themes/jialing/colors.toml').read_text())
+        colors = tomllib.loads((ROOT / 'colors.toml').read_text())
         muted = colors['muted']
         self.assertGreaterEqual(contrast(muted, colors['background']), 4.5)
         self.assertGreaterEqual(contrast(muted, colors['lighter_background']), 4.5)
-        ghostty = (ROOT / 'themes/jialing/ghostty.conf').read_text()
-        self.assertIsNotNone(re.search(rf'^palette = 8={muted}$', ghostty, re.MULTILINE))

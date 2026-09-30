@@ -3,10 +3,7 @@
 # themes/<name>/shell.toml to replace this generated file.
 
 [bar]
-# Alpha companions (where present) range from 0 (invisible) to 1 (opaque).
 background       = "#1C1C1E"
-# Translucency reveals the compositor blur already enabled for omarchy-bar.
-background-alpha = 0.62
 text             = "#E5E5EA"
 # Modules calling attention to themselves (recording, voxtype, alerts, updates)
 active           = "#FF6961"
@@ -21,7 +18,7 @@ size-vertical    = 28
 # Shared Hyprland-derived border tokens. Surface sections reference these so
 # lock, notifications, popups, and menu-style cards stay aligned with the
 # current Hyprland active-border gradient.
-active-border            = "#0A84FF"
+active-border            = "rgba(ff6961ff) rgba(ff9f0aff) 45deg"
 active-border-foreground = "#E5E5EA"
 
 [controls]
@@ -126,7 +123,6 @@ base-size = 12
 # widths accept one CSS-style scalar/list: N, "Y X", "T X B", or "T R B L";
 # individual border-width-top/right/bottom/left keys override the list.
 background = "#2C2C2E"
-background-alpha = 0.62
 text             = "#E5E5EA"
 border = "#FFFFFF"
 border-alpha = 0.14
@@ -135,10 +131,8 @@ border-alpha = 0.14
 border-width = 1
 
 [tooltip]
-# Hover tooltips across the bar, panels, and buttons. background-alpha of
-# 0.97 mirrors the legacy hard-coded tooltip opacity.
+# Hover tooltips across the bar, panels, and buttons.
 background = "#2C2C2E"
-background-alpha = 0.62
 text             = "#E5E5EA"
 border = "#FFFFFF"
 border-alpha = 0.14
@@ -147,7 +141,6 @@ border-width = 1
 
 [notifications]
 background = "#2C2C2E"
-background-alpha = 0.62
 text             = "#E5E5EA"
 # Conventionally matches the Hyprland active-window border. Border accepts
 # either a solid color or the full active-border gradient.
@@ -159,12 +152,10 @@ countdown        = "#0A84FF"
 border-width = 1
 
 [launcher]
-# Same six tokens as [menu], applied to the launcher overlay. Alpha
-# companions go from 0 (invisible) to 1 (opaque). scrim is the full-screen
-# dim layer behind the card; background is the card itself. Defaults
-# mirror [menu] with the card at 0.95 to preserve the legacy translucency.
+# Same six tokens as [menu], applied to the launcher overlay. The scrim
+# dims the screen behind the opaque card.
 background                = "#1C1C1E"
-background-alpha          = 0.95
+background-alpha          = 1.0
 text                      = "#E5E5EA"
 border                    = "hyprland.active-border-foreground"
 border-alpha              = 1.0
@@ -177,11 +168,8 @@ selected-border           = "hyprland.active-border-foreground"
 selected-border-alpha     = 0.25
 
 [menu]
-# Frosted quick menu; clipboard, emoji, and reminder cards share this surface.
-# Keep the scrim below the Hyprland blur rule's ignore_alpha threshold so
-# only the card is frosted, while the surrounding desktop stays crisp.
+# Quick menu; clipboard, emoji, and reminder cards share this surface.
 background                = "#2C2C2E"
-background-alpha          = 0.58
 text                      = "#E5E5EA"
 border                    = "#FFFFFF"
 border-alpha              = 0.14
@@ -196,11 +184,10 @@ selected-border-alpha     = 0.0
 selected-border-width     = 0
 
 [polkit]
-# Native privilege prompt: match the quick menu's frosted surface.
+# Native privilege prompt: match the quick menu's surface.
 # Embed idle border opacity in the color so the shared border-alpha can
 # stay at 1 and authentication errors retain a fully visible red border.
 background       = "#2C2C2E"
-background-alpha = 0.58
 text             = "#E5E5EA"
 text-error       = "#FF6961"
 border           = "rgba(ffffff24)"
@@ -219,7 +206,7 @@ accent           = "#0A84FF"
 # border-alpha applies to all three border states (they are mutually
 # exclusive in time).
 background = "#2C2C2E"
-background-alpha = 0.50
+background-alpha = 1.0
 text             = "#E5E5EA"
 placeholder = "#98989D"
 text-error       = "#FF6961"

@@ -11,7 +11,7 @@ import unittest
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SCRIPT = ROOT / "themes/jialing/herdr-theme.py"
+SCRIPT = ROOT / ".local-theme/herdr-theme.py"
 SPEC = importlib.util.spec_from_file_location("jialing_herdr_theme", SCRIPT)
 MODULE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(MODULE)
@@ -44,7 +44,7 @@ class HerdrThemeTests(unittest.TestCase):
             state.mkdir(parents=True)
             source = config / "omarchy/themes/jialing/herdr.toml"
             source.parent.mkdir(parents=True)
-            source.write_bytes((ROOT / "themes/jialing/herdr.toml").read_bytes())
+            source.write_bytes((ROOT / ".local-theme/herdr.toml").read_bytes())
             target = config / "herdr/config.toml"
             target.parent.mkdir(parents=True)
             original = '[keys]\nprefix = "ctrl+space"\n\n[theme]\nname = "catppuccin"\n'
