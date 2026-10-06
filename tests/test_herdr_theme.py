@@ -61,7 +61,9 @@ class HerdrThemeTests(unittest.TestCase):
             subprocess.run([sys.executable, str(SCRIPT)], env=env, check=True)
             applied = tomllib.loads(target.read_text())
             self.assertEqual(applied["theme"]["name"], "terminal")
-            self.assertEqual(applied["theme"]["custom"]["sidebar_bg"], "#161618")
+            self.assertEqual(applied["theme"]["custom"]["sidebar_bg"], "#0D0D0F")
+            # Herdr's accent is the orange stop of the Hyprland focus border.
+            self.assertEqual(applied["theme"]["custom"]["accent"], "#FF9F0A")
             self.assertEqual(applied["keys"]["prefix"], "ctrl+space")
 
             (state / "theme.name").write_text("everforest\n")

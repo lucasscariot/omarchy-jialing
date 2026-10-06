@@ -43,7 +43,7 @@ window-padding-x = 14
 window-padding-y = 14
 ```
 
-Jialing also contains optional Herdr colors in `herdr.toml`. The installed Omarchy `theme-set` hook applies them to Herdr when Jialing is selected and removes them when another theme is selected, preserving the rest of your Herdr settings. If Herdr is not installed, the hook does nothing.
+Jialing also contains optional Herdr colors in `herdr.toml`: a darker sidebar, and the focus border's orange and red as Herdr's accent and alert colors, so the active tab matches the focused window outline. The installed Omarchy `theme-set` hook applies them to Herdr when Jialing is selected and removes them when another theme is selected, preserving the rest of your Herdr settings. If Herdr is not installed, the hook does nothing.
 
 ## Restore
 

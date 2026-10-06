@@ -5,7 +5,11 @@ name = "terminal"
 auto_switch = false
 
 [theme.custom]
-sidebar_bg = "#161618"
-active_row_bg = "#303034"
-selection_bg = "#39475A"
-surface_dim = "#2A2A2F"
+sidebar_bg = "#0D0D0F"
+active_row_bg = "#202024"
+selection_bg = "#2A3A52"
+surface_dim = "#19191D"
+# The two colours of the Hyprland active-border gradient (hyprland.lua):
+# orange for the active tab, highlights and borders, red for alerts.
+accent = "#FF9F0A"
+red = "#FF6961"
