@@ -8,8 +8,12 @@ auto_switch = false
 sidebar_bg = "#0D0D0F"
 active_row_bg = "#202024"
 selection_bg = "#2A3A52"
-surface_dim = "#19191D"
 # The two colours of the Hyprland active-border gradient (hyprland.lua):
 # orange for the active tab, highlights and borders, red for alerts.
 accent = "#FF9F0A"
 red = "#FF6961"
+# Section headers ("machines", "agents"), row separators and sidebar controls:
+# a muted version of the accent so headers read as labels, not items.
+overlay0 = "#C28F4A"
+# Section rule and pane dividers, visible rather than near-black.
+surface_dim = "#232328"
