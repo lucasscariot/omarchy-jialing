@@ -16,8 +16,10 @@ THEME = "jialing"
 ASSETS = (
     "colors.toml",
     "shell.toml",
+    "icons.theme",
     "preview.png",
 )
+BACKGROUNDS = ROOT / "backgrounds"
 LOCAL_ASSETS = (
     "hyprland.lua",
     "herdr.toml",
@@ -143,6 +145,8 @@ def main():
         raise ValueError("Jialing was installed with 'omarchy theme install'; remove that clone before using the local installer")
     files = {target / name: (ROOT / name).read_bytes() for name in ASSETS}
     files.update({target / name: (ROOT / ".local-theme" / name).read_bytes() for name in LOCAL_ASSETS})
+    # Ship Jialing's wallpaper beside any the user already keeps in backgrounds/.
+    files.update({target / "backgrounds" / path.name: path.read_bytes() for path in sorted(BACKGROUNDS.iterdir()) if path.is_file()})
     files[target / "ghostty.conf"] = None  # Let Omarchy generate terminal colors from colors.toml.
     hook = config / "omarchy/hooks/theme-set.d/jialing-herdr"
     files[hook] = (ROOT / ".local-theme" / "herdr-theme-hook").read_bytes()

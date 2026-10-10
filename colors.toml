@@ -1,30 +1,40 @@
-# Apple-inspired dark palette: neutral surfaces and a blue accent.
-# Darkened on 2026-10-06 with softer whites and less neon ANSI colours.
+# Jialing: lantern light on graphite.
+#
+# Surfaces are cool, neutral graphite with no colour cast. One warm accent
+# runs through the whole desktop: the amber of Hongyadong's lanterns, with an
+# ember red on the focused-window outline. Every other colour is a terminal
+# tone, softened so the amber stays the only thing that glows.
 mode = "dark"
 
-accent = "#2B7FDF"
-hyprland_active_border = "rgba(ff6961ff) rgba(ff9f0aff) 45deg"
-selection = "#213652"
+accent = "#F2A74E"
+hyprland_active_border = "rgba(f0705fff) rgba(f2a74eff) 45deg"
+hyprland_inactive_border = "rgba(3a3a4099)"
+selection = "#352D22"
+selection_foreground = "#F2F2F6"
 muted = "#8F8F96"
+
 background = "#121214"
 dark_background = "#0D0D0F"
 darker_background = "#09090B"
-lighter_background = "#1E1E22"
-foreground = "#D6D6DC"
-dark_foreground = "#8C8C93"
-light_foreground = "#D6D6DC"
-bright_foreground = "#EDEDF2"
-red = "#F26B65"
-yellow = "#E6C34E"
-orange = "#EFA04A"
-green = "#4FC46A"
-cyan = "#68C4EA"
-blue = "#5B9BE3"
-magenta = "#B690E4"
+lighter_background = "#1D1D21"
+
+foreground = "#D8D8DE"
+dark_foreground = "#8A8A92"
+light_foreground = "#E4E4EA"
+bright_foreground = "#F2F2F6"
+
+red = "#F0705F"
+yellow = "#E8C266"
+orange = "#F2A74E"
+green = "#6FC283"
+cyan = "#74C3DD"
+blue = "#6E9EDC"
+magenta = "#B994DE"
 brown = "#A98C6A"
-bright_red = "#F58F8A"
-bright_yellow = "#F0D77A"
-bright_green = "#7DD892"
-bright_cyan = "#96DAF5"
-bright_blue = "#86BBEF"
-bright_magenta = "#CDAFF2"
+
+bright_red = "#F59488"
+bright_yellow = "#F1D68A"
+bright_green = "#93D6A3"
+bright_cyan = "#9CD8EC"
+bright_blue = "#93B8E8"
+bright_magenta = "#CDB1EC"

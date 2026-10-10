@@ -9,7 +9,7 @@ import unittest
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-ASSETS = {"colors.toml", "shell.toml", "hyprland.lua", "herdr.toml", "herdr-theme.py", "preview.png"}
+ASSETS = {"colors.toml", "shell.toml", "icons.theme", "hyprland.lua", "herdr.toml", "herdr-theme.py", "preview.png"}
 
 
 class InstallTests(unittest.TestCase):
@@ -47,6 +47,9 @@ class InstallTests(unittest.TestCase):
         self.assertEqual(report["theme"], "jialing")
         self.assertEqual({p.name for p in target.iterdir() if p.is_file()}, ASSETS)
         self.assertEqual(background.read_bytes(), b"personal wallpaper")
+        shipped = {p.name for p in (ROOT / "backgrounds").iterdir() if p.is_file()}
+        self.assertTrue(shipped)
+        self.assertEqual({p.name for p in background.parent.iterdir()}, shipped | {"personal.jpg"})
         self.assertFalse((self.config / "omarchy/themes/jialing-light").exists())
         self.assertTrue((self.config / "omarchy/hooks/theme-set.d/jialing-herdr").stat().st_mode & 0o111)
         self.assertTrue(Path(report["backup"]).is_dir())

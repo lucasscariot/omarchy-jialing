@@ -24,3 +24,11 @@ class ContrastTests(unittest.TestCase):
         muted = colors['muted']
         self.assertGreaterEqual(contrast(muted, colors['background']), 4.5)
         self.assertGreaterEqual(contrast(muted, colors['lighter_background']), 4.5)
+
+    def test_body_text_and_accent_stay_legible(self):
+        colors = tomllib.loads((ROOT / 'colors.toml').read_text())
+        self.assertGreaterEqual(contrast(colors['foreground'], colors['background']), 10)
+        self.assertGreaterEqual(contrast(colors['accent'], colors['background']), 7)
+        self.assertGreaterEqual(contrast(colors['bright_foreground'], colors['selection']), 7)
+        for name in ('red', 'yellow', 'green', 'cyan', 'blue', 'magenta'):
+            self.assertGreaterEqual(contrast(colors[name], colors['background']), 4.5, name)
