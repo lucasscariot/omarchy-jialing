@@ -3,7 +3,7 @@
 # Mirrors colors.toml. Cards sit on a raised graphite surface (#18181B) under
 # a 10 % white hairline, so amber appears only where something is focused,
 # selected, or counting down, and the red-to-amber lantern gradient marks the
-# edge of a notification or a chosen row. The bar is the darkest surface on
+# edge of a notification. The bar is the darkest surface on
 # screen so it recedes behind the windows.
 
 [bar]
@@ -91,12 +91,14 @@ border-alpha              = 0.10
 border-width              = 1
 scrim                     = "#000000"
 scrim-alpha               = 0.45
+# The chosen row is a flat tile with an amber label and no stroke: a 1-2 px
+# edge lands between physical pixels at fractional scales and renders unevenly.
 selected-background       = "#FFFFFF"
-selected-background-alpha = 0.06
+selected-background-alpha = 0.07
 selected-text             = "#F2A74E"
-selected-border           = "hyprland.active-border"
-selected-border-alpha     = 1.0
-selected-border-width     = "0 0 0 2"
+selected-border           = "#F2A74E"
+selected-border-alpha     = 0.0
+selected-border-width     = 0
 
 [menu]
 background                = "#18181B"
@@ -107,12 +109,14 @@ border-alpha              = 0.10
 border-width              = 1
 scrim                     = "#000000"
 scrim-alpha               = 0.35
+# The chosen row is a flat tile with an amber label and no stroke: a 1-2 px
+# edge lands between physical pixels at fractional scales and renders unevenly.
 selected-background       = "#FFFFFF"
-selected-background-alpha = 0.06
+selected-background-alpha = 0.07
 selected-text             = "#F2A74E"
-selected-border           = "hyprland.active-border"
-selected-border-alpha     = 1.0
-selected-border-width     = "0 0 0 2"
+selected-border           = "#F2A74E"
+selected-border-alpha     = 0.0
+selected-border-width     = 0
 
 [polkit]
 background       = "#18181B"
@@ -135,15 +139,16 @@ background-alpha = 0.88
 text             = "#D8D8DE"
 placeholder      = "#6E6E78"
 text-error       = "#F0705F"
-# The field is borderless at rest and lights up with the lantern gradient
-# while you type.
+# The field is borderless in every state. The lock view draws border-active
+# even at rest, and a hairline renders unevenly at fractional scales; the caret
+# shows typing and the red message shows a wrong password.
 border           = "hyprland.active-border"
 border-active    = "hyprland.active-border"
 border-error     = "#F0705F"
 border-alpha     = 1.0
 border-width        = 0
-border-active-width = 1
-border-error-width  = 1
+border-active-width = 0
+border-error-width  = 0
 selection        = "#F2A74E"
 selection-alpha  = 0.35
 

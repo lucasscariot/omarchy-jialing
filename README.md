@@ -8,7 +8,7 @@ What you get:
 
 - A red-to-amber outline on the focused window with a faint warm glow; other windows sit behind a neutral hairline and a soft neutral shadow.
 - Squircle corners, a little more air between windows, and a shell whose cards sit on a raised graphite surface under a 10 % white hairline. Amber appears only where something is focused, selected, or counting down.
-- A lantern edge on notifications and on the chosen launcher and menu row: the focus gradient as a hairline, thicker down the left. The lock screen's password field is borderless at rest and lights up with the gradient while you type.
+- A lantern edge on notifications: the focus gradient as a hairline, thicker down the left. The chosen launcher and menu row is a flat tile with amber text, and the lock screen's password field is borderless, so neither carries a thin stroke that renders unevenly at fractional display scales.
 - Instant windows, soft light: windows open, close, and move without animation, while borders, popups, and fades cross-fade in about 150 ms.
 - A graphite wallpaper with a lantern glow, Yaru-yellow icons, a softened terminal palette with a steel-blue ANSI blue for the river, and matching Herdr colours.
 
